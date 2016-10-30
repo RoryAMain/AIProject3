@@ -8,32 +8,6 @@ class MiniMax
 private:
 	int maxDepth = 5;
 	int currentDepth;
-public:
-
-	MiniMax(int maxDepthIn)
-	{
-		maxDepth = maxDepthIn;
-	}
-
-	void setMaxDepth(int depthIn)
-	{
-		maxDepth = depthIn;
-	}
-
-	int getMaxDepth()
-	{
-		return maxDepth;
-	}
-
-	int getCurrentDepth()
-	{
-		return currentDepth;
-	}
-
-	void setCurrentDepth(int currentDepthIn)
-	{
-		currentDepth = currentDepthIn;
-	}
 
 	bool anyChildrenLeft(BoardNode *parent)
 	{
@@ -79,6 +53,35 @@ public:
 			return worst;
 		}
 	}
+
+public:
+
+	MiniMax(int maxDepthIn)
+	{
+		maxDepth = maxDepthIn;
+	}
+
+	void setMaxDepth(int depthIn)
+	{
+		maxDepth = depthIn;
+	}
+
+	int getMaxDepth()
+	{
+		return maxDepth;
+	}
+
+	int getCurrentDepth()
+	{
+		return currentDepth;
+	}
+
+	void setCurrentDepth(int currentDepthIn)
+	{
+		currentDepth = currentDepthIn;
+	}
+
+	
 
 	double playMiniMax(BoardNode *parent,vector<int> boardState)
 	{
