@@ -89,25 +89,3 @@ public:
 	}
 
 };
-
-int main(int argc, char* argv[])
-{
-	Heuristic test;
-	vector<int> board = { 
-		//Enemy Goal
-		0,
-		//Our spots
-		3,3,3,3,3,3,
-		//Our Goal
-		0,
-		//Enemy Spots
-		3,3,3,3,3,3
-	};
-	cout << "Board Size: " << board.size() << "\n";
-	double fitnessValue = test.getFitnessValue(board);
-	cout << "Fitness value: " << fitnessValue << "\n";
-	
-	system("pause");
-
-	return 0;
-}
