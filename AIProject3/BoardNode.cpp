@@ -10,6 +10,7 @@ class BoardNode {
 private:
 	Heuristic heuristicChecker;
 	bool isMax;
+	bool visited;
 	double alpha;
 	double beta;
 	double fitnessCost;
@@ -23,6 +24,7 @@ public:
 	BoardNode* child3;
 	BoardNode* child4;
 	BoardNode* child5;
+	vector<BoardNode*> childList = { child0,child1,child2,child3,child4,child5 };
 
 	//If this is the first node.
 	BoardNode()
@@ -32,6 +34,7 @@ public:
 		alpha = -INFINITY;
 		beta = INFINITY;
 		depth = 0;
+		visited = true;
 		board = {
 			//Enemy Goal
 			0,
@@ -45,13 +48,15 @@ public:
 		fitnessCost = heuristicChecker.getFitnessValue(board);
 	}
 
-	BoardNode(BoardNode* parentIn)
+	BoardNode(BoardNode* parentIn, BoardNode* thisNode)
 	{
 		parent = parentIn;
+		thisNode = this;
 		isMax = !(parent->isMax);
 		alpha = parent->alpha;
 		beta = parent->beta;
 		depth = (parentIn->depth) + 1;
+		visited = false;
 		//set board based on game playing
 		fitnessCost = heuristicChecker.getFitnessValue(board);
 	}
@@ -89,5 +94,25 @@ public:
 	double getBeta()
 	{
 		return beta;
+	}
+
+	bool getVisited()
+	{
+		return visited;
+	}
+
+	void setVisited(bool boolIn)
+	{
+		visited = boolIn;
+	}
+
+	void setFitnessCost(double costIn)
+	{
+		fitnessCost = costIn;
+	}
+
+	double getFitnessCost()
+	{
+		return fitnessCost;
 	}
 };
