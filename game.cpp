@@ -1,4 +1,3 @@
-#include <vector>
 #include <iostream>
 #include <string>
 
@@ -49,10 +48,17 @@ void display(string playerTurn, int board[])
 	cout << endl;
 }
 
-void predict(int board[], int chosencup, string playerTurn)
+void predict(int board[], string playerTurn)
 {
 	int handfull;
 	int currentcup;
+	int otherBoard[14];
+	int chosencup;
+
+	for (int i = 0; i < 14;i++)
+	{
+		otherBoard[i] = board[i];
+	}
 
 	while (true) {
 		cin >> chosencup; //takes in the cup number from player
@@ -64,13 +70,13 @@ void predict(int board[], int chosencup, string playerTurn)
 			cin.clear();
 			cin.ignore(10000, '\n');
 		}
-		else if (chosencup < 7 && board[chosencup - 1] == 0)
+		else if (chosencup < 7 && otherBoard[chosencup - 1] == 0)
 		{
 			cout << "You can't take from there. There are no seeds." << endl;
 			cin.clear();
 			cin.ignore(10000, '\n');
 		}
-		else if (board[chosencup] == 0 && chosencup >6)
+		else if (otherBoard[chosencup] == 0 && chosencup >6)
 		{
 			cout << "You can't take from there. There are no seeds." << endl;
 			cin.clear();
@@ -88,8 +94,8 @@ void predict(int board[], int chosencup, string playerTurn)
 
 	currentcup = chosencup;
 	//taking the handful and then emptying the pit
-	handfull = board[chosencup];
-	board[chosencup] = 0;
+	handfull = otherBoard[chosencup];
+	otherBoard[chosencup] = 0;
 
 	while (handfull != 0)
 	{
@@ -101,80 +107,80 @@ void predict(int board[], int chosencup, string playerTurn)
 		{
 			//This is when you got to loop back to the beginning once reaching the end of the array
 			currentcup = 0;
-			board[currentcup]++;
+			otherBoard[currentcup]++;
 			handfull--;
 		}
 		else
 		{
 			//drop seed
-			board[currentcup]++;
+			otherBoard[currentcup]++;
 			handfull--;
 		}
 
 		//capture
-		if (playerTurn == "SOUTH" && handfull == 0 && currentcup < 6 && board[currentcup] == 1)
+		if (playerTurn == "SOUTH" && handfull == 0 && currentcup < 6 && otherBoard[currentcup] == 1)
 		{
 			//SOUTH drops seed in empty pit on SOUTH side
 			switch (currentcup) {
 			case 0:
-				board[6] = board[6] + board[12];
-				board[12] = 0;
+				otherBoard[6] = otherBoard[6] + otherBoard[12];
+				otherBoard[12] = 0;
 				break;
 			case 1:
-				board[6] = board[6] + board[11];
-				board[11] = 0;
+				otherBoard[6] = otherBoard[6] + otherBoard[11];
+				otherBoard[11] = 0;
 				break;
 			case 2:
-				board[6] = board[6] + board[10];
-				board[10] = 0;
+				otherBoard[6] = otherBoard[6] + otherBoard[10];
+				otherBoard[10] = 0;
 				break;
 			case 3:
-				board[6] = board[6] + board[9];
-				board[9] = 0;
+				otherBoard[6] = otherBoard[6] + otherBoard[9];
+				otherBoard[9] = 0;
 				break;
 			case 4:
-				board[6] = board[6] + board[8];
-				board[8] = 0;
+				otherBoard[6] = otherBoard[6] + otherBoard[8];
+				otherBoard[8] = 0;
 				break;
 			default:
-				board[6] = board[6] + board[7];
-				board[7] = 0;
+				otherBoard[6] = otherBoard[6] + otherBoard[7];
+				otherBoard[7] = 0;
 				break;
 			}
 		}
-		else if (playerTurn == "NORTH" && handfull == 0 && currentcup > 6 && currentcup != 13 && board[currentcup] == 1) {
+		else if (playerTurn == "NORTH" && handfull == 0 && currentcup > 6 && currentcup != 13 && otherBoard[currentcup] == 1) {
 			//NORTH drops seed into empty pit on NORTH side
 			switch (currentcup) {
 			case 7:
-				board[13] = board[13] + board[5];
-				board[5] = 0;
+				otherBoard[13] = otherBoard[13] + otherBoard[5];
+				otherBoard[5] = 0;
 				break;
 			case 8:
-				board[13] = board[13] + board[4];
-				board[4] = 0;
+				otherBoard[13] = otherBoard[13] + otherBoard[4];
+				otherBoard[4] = 0;
 				break;
 			case 9:
-				board[13] = board[13] + board[3];
-				board[3] = 0;
+				otherBoard[13] = otherBoard[13] + otherBoard[3];
+				otherBoard[3] = 0;
 				break;
 			case 10:
-				board[13] = board[13] + board[2];
-				board[2] = 0;
+				otherBoard[13] = otherBoard[13] + otherBoard[2];
+				otherBoard[2] = 0;
 				break;
 			case 11:
-				board[13] = board[13] + board[1];
-				board[1] = 0;
+				otherBoard[13] = otherBoard[13] + otherBoard[1];
+				otherBoard[1] = 0;
 				break;
 			default:
-				board[13] = board[13] + board[0];
-				board[0] = 0;
+				otherBoard[13] = otherBoard[13] + otherBoard[0];
+				otherBoard[0] = 0;
 				break;
 			}
 		}
 	}
 
 		//displays the board
-		display(playerTurn, board); //although you might want to get rid of this if you plan to use it for the algorithm just to avoid clutter
+		display(playerTurn, otherBoard); //although you might want to get rid of this if you plan to use it for the algorithm just to avoid clutter
 }	
 
 int main()
