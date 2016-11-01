@@ -54,118 +54,124 @@ void predict(int board[], int chosencup, string playerTurn)
 	int handfull;
 	int currentcup;
 
-		while (true) {
-			cin >> chosencup; //takes in the cup number from player
-							  // You might want to add an if statement concerning the above line so that it applies only to NORTH
-							  //below is error checking in case we have clumsy fingers
-			if (chosencup < 1 || chosencup > 12)
-			{
-				cout << "Please enter a valid move." << endl;
-				cin.clear();
-				cin.ignore(10000, '\n');
-			}
-			else if (board[chosencup - 1] == 0)
-			{
-				cout << "You can't take from there. There are no seeds." << endl;
-				cin.clear();
-				cin.ignore(10000, '\n');
-			}
-			else
-			{
-				//all cups that are before the SOUTH capture cup counts starting from 0
-				//So when the player inputs a number, it's decremented by 1 to match normal conventions
-				if (chosencup < 6)
-					chosencup--;
+	while (true) {
+		cin >> chosencup; //takes in the cup number from player
+						  // You might want to add an if statement concerning the above line so that it applies only to NORTH
+						  //below is error checking in case we have clumsy fingers
+		if (chosencup < 1 || chosencup > 12)
+		{
+			cout << "Please enter a valid move." << endl;
+			cin.clear();
+			cin.ignore(10000, '\n');
+		}
+		else if (chosencup < 7 && board[chosencup - 1] == 0)
+		{
+			cout << "You can't take from there. There are no seeds." << endl;
+			cin.clear();
+			cin.ignore(10000, '\n');
+		}
+		else if (board[chosencup] == 0 && chosencup >6)
+		{
+			cout << "You can't take from there. There are no seeds." << endl;
+			cin.clear();
+			cin.ignore(10000, '\n');
+		}
+		else
+		{
+			//all cups that are before the SOUTH capture cup counts starting from 0
+			//So when the player inputs a number, it's decremented by 1 to match normal conventions
+			if (chosencup < 7)
+				chosencup--;
+			break;
+		}
+	}
+
+	currentcup = chosencup;
+	//taking the handful and then emptying the pit
+	handfull = board[chosencup];
+	board[chosencup] = 0;
+
+	while (handfull != 0)
+	{
+		//traversing board
+		currentcup++;
+		if (playerTurn == "NORTH" && currentcup == 6) {}//NORTH does not put anything in SOUTH pit
+		else if (playerTurn == "SOUTH" && currentcup == 13) {}//SOUTH does not put anything in NORTH pit
+		else if (currentcup == 14)
+		{
+			//This is when you got to loop back to the beginning once reaching the end of the array
+			currentcup = 0;
+			board[currentcup]++;
+			handfull--;
+		}
+		else
+		{
+			//drop seed
+			board[currentcup]++;
+			handfull--;
+		}
+
+		//capture
+		if (playerTurn == "SOUTH" && handfull == 0 && currentcup < 6 && board[currentcup] == 1)
+		{
+			//SOUTH drops seed in empty pit on SOUTH side
+			switch (currentcup) {
+			case 0:
+				board[6] = board[6] + board[12];
+				board[12] = 0;
+				break;
+			case 1:
+				board[6] = board[6] + board[11];
+				board[11] = 0;
+				break;
+			case 2:
+				board[6] = board[6] + board[10];
+				board[10] = 0;
+				break;
+			case 3:
+				board[6] = board[6] + board[9];
+				board[9] = 0;
+				break;
+			case 4:
+				board[6] = board[6] + board[8];
+				board[8] = 0;
+				break;
+			default:
+				board[6] = board[6] + board[7];
+				board[7] = 0;
 				break;
 			}
 		}
-
-		currentcup = chosencup;
-		//taking the handful and then emptying the pit
-		handfull = board[chosencup];
-		board[chosencup] = 0;
-
-		while (handfull != 0)
-		{
-			//traversing board
-			currentcup++;
-			if (playerTurn == "NORTH" && currentcup == 6) {}//NORTH does not put anything in SOUTH pit
-			else if (playerTurn == "SOUTH" && currentcup == 13) {}//SOUTH does not put anything in NORTH pit
-			else if (currentcup == 14)
-			{
-				//This is when you got to loop back to the beginning once reaching the end of the array
-				currentcup = 0;
-				board[currentcup]++;
-				handfull--;
-			}
-			else
-			{
-				//drop seed
-				board[currentcup]++;
-				handfull--;
-			}
-
-			//capture
-			if (playerTurn == "SOUTH" && handfull == 0 && currentcup < 6 && board[currentcup] == 1)
-			{
-				//SOUTH drops seed in empty pit on SOUTH side
-				switch (currentcup) {
-				case 0:
-					board[6] = board[6] + board[12];
-					board[12] = 0;
-					break;
-				case 1:
-					board[6] = board[6] + board[11];
-					board[11] = 0;
-					break;
-				case 2:
-					board[6] = board[6] + board[10];
-					board[10] = 0;
-					break;
-				case 3:
-					board[6] = board[6] + board[9];
-					board[9] = 0;
-					break;
-				case 4:
-					board[6] = board[6] + board[8];
-					board[8] = 0;
-					break;
-				default:
-					board[6] = board[6] + board[7];
-					board[7] = 0;
-					break;
-				}
-			}
-			else if (playerTurn == "NORTH" && handfull == 0 && currentcup > 6 && currentcup != 13 && board[currentcup] == 1) {
-				//NORTH drops seed into empty pit on NORTH side
-				switch (currentcup) {
-				case 7:
-					board[13] = board[13] + board[5];
-					board[5] = 0;
-					break;
-				case 8:
-					board[13] = board[13] + board[4];
-					board[4] = 0;
-					break;
-				case 9:
-					board[13] = board[13] + board[3];
-					board[3] = 0;
-					break;
-				case 10:
-					board[13] = board[13] + board[2];
-					board[2] = 0;
-					break;
-				case 11:
-					board[13] = board[13] + board[1];
-					board[1] = 0;
-					break;
-				default:
-					board[13] = board[13] + board[0];
-					board[0] = 0;
-					break;
-				}
+		else if (playerTurn == "NORTH" && handfull == 0 && currentcup > 6 && currentcup != 13 && board[currentcup] == 1) {
+			//NORTH drops seed into empty pit on NORTH side
+			switch (currentcup) {
+			case 7:
+				board[13] = board[13] + board[5];
+				board[5] = 0;
+				break;
+			case 8:
+				board[13] = board[13] + board[4];
+				board[4] = 0;
+				break;
+			case 9:
+				board[13] = board[13] + board[3];
+				board[3] = 0;
+				break;
+			case 10:
+				board[13] = board[13] + board[2];
+				board[2] = 0;
+				break;
+			case 11:
+				board[13] = board[13] + board[1];
+				board[1] = 0;
+				break;
+			default:
+				board[13] = board[13] + board[0];
+				board[0] = 0;
+				break;
 			}
 		}
+	}
 
 		//displays the board
 		display(playerTurn, board); //although you might want to get rid of this if you plan to use it for the algorithm just to avoid clutter
@@ -219,13 +225,13 @@ int main()
 				cin.clear();
 				cin.ignore(10000, '\n');
 			}
-			else if (chosencup < 6 && board[chosencup-1] == 0)
+			else if (chosencup < 7 && board[chosencup-1] == 0)
 			{
 				cout << "You can't take from there. There are no seeds." << endl;
 				cin.clear();
 				cin.ignore(10000, '\n');
 			}
-			else if (board[chosencup] == 0)
+			else if (board[chosencup] == 0 && chosencup >6)
 			{
 				cout << "You can't take from there. There are no seeds." << endl;
 				cin.clear();
@@ -342,6 +348,7 @@ int main()
 		**************************/
 		if (playerTurn == "NORTH")
 		{
+			gameEnd = true;
 			for (int i = 7; i < 13; i++)
 			{
 				//checks if all pits in NORTH are empty. 
@@ -370,6 +377,7 @@ int main()
 		}
 		else
 		{
+			gameEnd = true;
 			for (int i = 0; i < 6; i++)
 			{
 				//checks to see if SOUTH pits are empty
@@ -383,7 +391,7 @@ int main()
 			{
 				//SOUTH pits are empty. Final calculations are done here.
 				cout << "SOUTH has no more seeds. Final points will now be calculated." << endl;
-				for (int i = 7; i < 12; i++)
+				for (int i = 7; i < 13; i++)
 				{
 					//adding remaining seeds on NORTH pits
 					board[13] = board[13] + board[i];
