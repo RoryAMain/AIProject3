@@ -70,7 +70,7 @@ int main()
 	MiniMax thinker(3);
 	thinker.setCurrentDepth(0);
 	BoardNode head;
-	BoardNode* current = &head;
+	BoardNode *current = &head;
 
 	//initialize the gameboard
 	for (int i = 0; i < 14; i++)
@@ -86,6 +86,11 @@ int main()
 	playerTurn = choosingTurn(); // choosing turn
 	display(playerTurn, board); //displaying board
 
+	if (playerTurn == "NORTH")
+	{
+		head.setIsMax(0);
+	}
+
 	//PLAY GAME
 
 	while (gameEnd != true) {
@@ -99,7 +104,7 @@ int main()
 			if (playerTurn == "NORTH") {
 				cin >> chosencup;
 				BoardNode child(current, chosencup);
-				current = &child;
+				*current = child;
 			}
 							//takes in the cup number from player
 							  // You might want to add an if statement concerning the above line so that it applies only to NORTH
@@ -111,7 +116,7 @@ int main()
 				chosencup = best;
 				cout << "The best move is: " << chosencup << "\n";
 				BoardNode child2(current, chosencup);
-				current = &child2;
+				*current = child2;
 			}
 			if (chosencup < 1 || chosencup > 12)
 			{

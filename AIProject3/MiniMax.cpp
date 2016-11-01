@@ -160,7 +160,7 @@ public:
 
 		double test;
 		double maxTest = -INFINITY;
-		int choice;
+		int choice = 0;
 
 
 		test = playMiniMax(&child0, child0.board);
