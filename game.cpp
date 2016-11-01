@@ -110,23 +110,23 @@ void predict(int board[], int chosencup, string playerTurn)
 			{
 				//SOUTH drops seed in empty pit on SOUTH side
 				switch (currentcup) {
-				case '0':
+				case 0:
 					board[6] = board[6] + board[12];
 					board[12] = 0;
 					break;
-				case '1':
+				case 1:
 					board[6] = board[6] + board[11];
 					board[11] = 0;
 					break;
-				case '2':
+				case 2:
 					board[6] = board[6] + board[10];
 					board[10] = 0;
 					break;
-				case '3':
+				case 3:
 					board[6] = board[6] + board[9];
 					board[9] = 0;
 					break;
-				case '4':
+				case 4:
 					board[6] = board[6] + board[8];
 					board[8] = 0;
 					break;
@@ -139,23 +139,23 @@ void predict(int board[], int chosencup, string playerTurn)
 			else if (playerTurn == "NORTH" && handfull == 0 && currentcup > 6 && currentcup != 13 && board[currentcup] == 1) {
 				//NORTH drops seed into empty pit on NORTH side
 				switch (currentcup) {
-				case '7':
+				case 7:
 					board[13] = board[13] + board[5];
 					board[5] = 0;
 					break;
-				case '8':
+				case 8:
 					board[13] = board[13] + board[4];
 					board[4] = 0;
 					break;
-				case '9':
+				case 9:
 					board[13] = board[13] + board[3];
 					board[3] = 0;
 					break;
-				case '10':
+				case 10:
 					board[13] = board[13] + board[2];
 					board[2] = 0;
 					break;
-				case '11':
+				case 11:
 					board[13] = board[13] + board[1];
 					board[1] = 0;
 					break;
@@ -219,7 +219,13 @@ int main()
 				cin.clear();
 				cin.ignore(10000, '\n');
 			}
-			else if (board[chosencup-1] == 0)
+			else if (chosencup < 6 && board[chosencup-1] == 0)
+			{
+				cout << "You can't take from there. There are no seeds." << endl;
+				cin.clear();
+				cin.ignore(10000, '\n');
+			}
+			else if (board[chosencup] == 0)
 			{
 				cout << "You can't take from there. There are no seeds." << endl;
 				cin.clear();
@@ -229,7 +235,7 @@ int main()
 			{
 				//all cups that are before the SOUTH capture cup counts starting from 0
 				//So when the player inputs a number, it's decremented by 1 to match normal conventions
-				if( chosencup < 6)
+				if( chosencup < 7)
 					chosencup--;
 				break;
 			}
